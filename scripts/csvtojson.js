@@ -5,40 +5,64 @@ const readline = require('readline');
 const path = '../../covid-19-data/us-counties.csv';
 const jsonPath = '../src/counties.json';
 const readInterface = readline.createInterface({
-    input: fs.createReadStream(path),
-    console: false
+  input: fs.createReadStream(path),
+  console: false,
 });
 
-let = i = 0;
-let rawData = [];
+let i = 0;
+const rawData = [];
 let keys = [];
-readInterface.on('line', function(line) {
-    const lineArray = line.split(',');
-    if (i === 0) {
-        keys = lineArray;
-    } else {
-        const json = {};
-        lineArray.forEach((l,i) => {
-            json[keys[i]] = l;
-        });
-        rawData.push(json)
-    }
-    i++;
+console.log('Reading lines...');
+readInterface.on('line', (line) => {
+  const lineArray = line.split(',');
+  if (i === 0) {
+    keys = lineArray;
+  } else {
+    const json = {};
+    lineArray.forEach((l, i) => {
+      json[keys[i]] = l;
+    });
+    rawData.push(json);
+  }
+  i++;
 });
 
-readInterface.on('close', function() {
-    const states = {}
-    rawData.forEach(x => {
-        states[x.state] = states[x.state] || {counties: {}, dates: {}, keys: {}};
-        states[x.state].counties[x.county] = true;
-        states[x.state].dates[x.date] = states[x.state].dates[x.date] || {date: x.date};
-        states[x.state].dates[x.date][`${x.county}-cases`] = x.cases;
-        states[x.state].dates[x.date][`${x.county}-deaths`] = x.deaths;
-        states[x.state].keys[`${x.county}-cases`] = true;
-        states[x.state].keys[`${x.county}-deaths`] = true;
-    })
-
-    fs.writeFileSync(jsonPath, JSON.stringify(states, null, 2))
+/*
+Desired format:
+*/
+const states = {
+  California: {
+    counties: [''],
 
 
-})
+  },
+};
+
+
+readInterface.on('close', () => {
+  console.log('Generating JSON...');
+  const states = {};
+  let data = {};
+  rawData.forEach((x) => {
+    states[x.state] = states[x.state] || { counties: {}, dates: {}, keys: {} };
+    states[x.state].counties[x.county] = true;
+    data[x.date] = data[x.date] || { cases: {}, deaths: {} };
+    data[x.date].cases[x.state] = data[x.date].cases[x.state] || {};
+    data[x.date].cases[x.state][x.county] = parseInt(x.cases, 10);
+    data[x.date].deaths[x.state] = data[x.date].deaths[x.state] || {};
+    data[x.date].deaths[x.state][x.county] = parseInt(x.deaths, 10);
+  });
+
+  Object.keys(states).forEach((state) => {
+    states[state] = {
+      counties: Object.keys(states[state].counties),
+    };
+    data = Object.keys(data).map((date) => ({
+      date,
+      ...data[date],
+    }));
+  });
+  console.log(`Writing ${jsonPath}...`);
+  fs.writeFileSync(jsonPath, JSON.stringify({ states, data }, null, 2));
+  console.log(`Wrote ${jsonPath}.`);
+});
