@@ -1,6 +1,8 @@
-.container {
-    margin: 20px;
+.App {
+    margin: 1rem;
 }
+
+
 
 .form-row {
     display: flex;
@@ -17,14 +19,33 @@
      margin: 0 10px;
 }
 
-.form {
+.chart-options, .shortcuts, .charts-container {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.charts-container {
+    margin-top: 1rem;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart-options {
+    display: flex;
     flex: 5;
 }
+
+.form {
+    flex: 1
+}
+
 .shortcuts {
     flex: 1;
     margin-left: 1rem;
-    border: 1px solid lightgray;
-    padding: 1rem;
 }
 
 .shortcut {
@@ -37,6 +58,7 @@
 
 .chart-title {
     text-transform: capitalize;
+    text-align: center;
 }
 
 .tooltip {
