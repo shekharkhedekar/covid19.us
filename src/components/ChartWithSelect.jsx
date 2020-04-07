@@ -105,11 +105,15 @@ const ChartWithSelect = () => {
       ),
     },
     {
-      shouldShow: selectedStates && Boolean(selectedStates.length) && selectedCounties && selectedCounties.length > 1,
+      shouldShow: (
+        selectedStates
+        && Boolean(selectedStates.length)
+      ),
       label: 'Combine counties?',
       input: (
         <input
           type="checkbox"
+          checked={aggregateBy === AGGREGATE_OPTIONS[1]}
           onChange={(e) => {
             const { checked } = e.target;
             setAggregateBy(AGGREGATE_OPTIONS[checked ? 1 : 2]);
@@ -135,9 +139,9 @@ const ChartWithSelect = () => {
 
       <Charts
         title={`United States${
-          selectedStates && selectedStates.length ? ` > ${selectedStates.map((s) => s.label).join()}` : ''
+          selectedStates && selectedStates.length ? ` > ${selectedStates.map((s) => s.label).join(', ')}` : ''
         }${
-          selectedCounties && selectedCounties.length ? ` > ${selectedCounties.map((s) => s.label).join()} counties` : ''
+          selectedCounties && selectedCounties.length ? ` > ${selectedCounties.map((s) => s.label).join(', ')} counties` : ''
         }`}
         data={filteredData}
       />

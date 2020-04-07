@@ -4,9 +4,10 @@ import { SHORTCUTS } from '../constants';
 
 const Shortcuts = ({ onChange }) => (
   <div className="shortcuts">
-    <div className="label">Shortcuts:</div>
+    <h2>Quick Links</h2>
     {SHORTCUTS.map((s) => (
       <div
+        key={s.name}
         className="shortcut"
         role="button"
         onClick={() => onChange(s)}

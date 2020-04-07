@@ -20,7 +20,7 @@ const Charts = ({ name, data, title }) => (
 
 
       {['cases', 'deaths'].map((name) => (
-        <div>
+        <div key={name}>
           <h3 className="chart-title">
             {name}
           </h3>
@@ -44,7 +44,7 @@ const Charts = ({ name, data, title }) => (
             <CartesianGrid />
             <Tooltip content={TooltipContent} />
 
-            {Object.keys(data[data.length - 1]).filter((k) => k.includes(name)).map((k) => (<Line type="natural" dataKey={k} stroke="#8884d8" />))}
+            {Object.keys(data[data.length - 1]).filter((k) => k.includes(name)).map((k) => (<Line key={k} type="natural" dataKey={k} stroke="#8884d8" />))}
 
           </LineChart>
         </div>

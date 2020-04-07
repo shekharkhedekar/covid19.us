@@ -11,7 +11,8 @@
 }
 
 .label {
-    width: 120px;
+    width: 150px;
+    text-align: right;
 }
 
 .select{

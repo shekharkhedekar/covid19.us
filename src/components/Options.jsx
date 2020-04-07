@@ -5,7 +5,7 @@ const Options = ({ inputs }) => (
     <div className="form">
       <h2>Filters</h2>
       {inputs.map((i) => (i.shouldShow ? (
-        <div className="form-row">
+        <div className="form-row" key={i.label}>
           <div className="label">
             {i.label}
             :
