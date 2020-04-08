@@ -10,10 +10,13 @@ import { AGGREGATE_OPTIONS } from '../constants';
 const mapStringToSelectOption = (k) => ({ value: k, label: k });
 
 const ChartWithSelect = () => {
+  // State
   const [selectedStates, setSelectedStates] = useState([]);
   const [selectedCounties, setSelectedCounties] = useState([]);
   const [aggregateBy, setAggregateBy] = useState(AGGREGATE_OPTIONS[0]);
+  const [activeDotValue, setActiveDotValue] = useState();
 
+  // State Helpers
   const includesState = (s) => (
     !selectedStates || !selectedStates.length || (selectedStates.map((st) => st.value).includes(s))
   );
@@ -21,7 +24,6 @@ const ChartWithSelect = () => {
     !selectedCounties
     || !selectedCounties.length || (selectedCounties.map((ct) => ct.value).includes(c))
   );
-
   const getData = (d, k) => {
     const output = {};
     Object.keys(d[k]).forEach((state) => {
@@ -48,6 +50,8 @@ const ChartWithSelect = () => {
 
     return output;
   };
+
+  // Variables
   const filteredData = data.map((d) => ({ date: d.date, ...getData(d, 'cases'), ...getData(d, 'deaths') }));
   const statesList = Object.keys(states).map(mapStringToSelectOption);
   const countiesList = Object.keys(states).reduce((acc, s) => {
@@ -122,11 +126,14 @@ const ChartWithSelect = () => {
       ),
     },
   ];
+
+  // Handlers
   const onShortcutChange = (s) => {
     setSelectedStates(s.states.map(mapStringToSelectOption));
     setSelectedCounties(s.counties.map(mapStringToSelectOption));
     setAggregateBy(s.aggregateBy);
   };
+  const onDotMouseOver = (e) => { setActiveDotValue(e.value); };
 
 
   return (
@@ -144,6 +151,8 @@ const ChartWithSelect = () => {
           selectedCounties && selectedCounties.length ? ` > ${selectedCounties.map((s) => s.label).join(', ')} counties` : ''
         }`}
         data={filteredData}
+        onDotMouseOver={onDotMouseOver}
+        activeDotValue={activeDotValue}
       />
 
 

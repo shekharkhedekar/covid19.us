@@ -1,6 +1,8 @@
 import React from 'react';
 
-const TooltipContent = ({ active, payload, label }) => {
+const TooltipContent = ({
+  active, payload, label, activeDotValue,
+}) => {
   if (!active || !payload.length) {
     return null;
   }
@@ -14,13 +16,26 @@ const TooltipContent = ({ active, payload, label }) => {
       <p className="tooltip-label">
         {date.toLocaleDateString()}
       </p>
-      {sorted.map((item) => (
-        <p key={item.name}>
-          {item.value.toLocaleString()}
-          {' '}
-          {item.name.replace(/-/g, ' ').replace('combined', '')}
-        </p>
-      ))}
+      {sorted.map((item) => {
+        const name = item.name.replace(/-/g, ' ').replace('combined', '').replace('cases', '').replace('deaths', '');
+        const formattedValue = item.value.toLocaleString();
+        return (
+          <p key={item.name}>
+            {activeDotValue === item.value ? (
+              <strong>
+                {formattedValue}
+                {name ? ` - ${name}` : ''}
+              </strong>
+            ) : (
+              <span>
+                {formattedValue}
+                {name ? ` - ${name}` : ''}
+              </span>
+            )}
+
+          </p>
+        );
+      })}
 
     </div>
   );

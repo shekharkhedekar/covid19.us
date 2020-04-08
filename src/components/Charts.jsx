@@ -13,7 +13,14 @@ const getMax = (name, data) => data.reduce((acc, current) => {
 
 const SIZE = 800;
 
-const Charts = ({ name, data, title }) => (
+const Charts = ({
+  name,
+  data,
+  title,
+  onDotMouseOver,
+  onDotMouseLeave,
+  activeDotValue,
+}) => (
   <div className="charts-container">
     <h2>{title}</h2>
     <div className="charts">
@@ -42,9 +49,26 @@ const Charts = ({ name, data, title }) => (
               tickFormatter={(v) => `${v.toLocaleString()}`}
             />
             <CartesianGrid />
-            <Tooltip content={TooltipContent} />
+            <Tooltip content={({ active, payload, label }) => (
+              <TooltipContent
+                active={active}
+                payload={payload}
+                label={label}
+                activeDotValue={activeDotValue}
+              />
+            )}
+            />
 
-            {Object.keys(data[data.length - 1]).filter((k) => k.includes(name)).map((k) => (<Line key={k} type="natural" dataKey={k} stroke="#8884d8" />))}
+            {Object.keys(data[data.length - 1]).filter((k) => k.includes(name)).map((k) => (
+              <Line
+                key={k}
+                type="natural"
+                dataKey={k}
+                stroke="#8884d8"
+                dot={false}
+                activeDot={{ onMouseOver: onDotMouseOver, onMouseLeave: onDotMouseLeave }}
+              />
+            ))}
 
           </LineChart>
         </div>
