@@ -29,6 +29,12 @@ export const SHORTCUTS = [
     aggregateBy: AGGREGATE_OPTIONS[1],
   },
   {
+    name: 'Washington',
+    states: ['Washington'],
+    counties: [],
+    aggregateBy: AGGREGATE_OPTIONS[1],
+  },
+  {
     name: 'Boston Area',
     states: ['Massachusetts'],
     counties: ['Suffolk', 'Norfolk, Middlesex', 'Essex'],
