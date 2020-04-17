@@ -93,8 +93,7 @@ const ChartWithSelect = () => {
     },
     {
       shouldShow: (
-        (!selectedStates.length
-        || selectedStates.length > 1)
+        (!selectedStates || !selectedStates.length || selectedStates.length > 1)
         && (!selectedCounties || !selectedCounties.length)),
       label: 'Combine states?',
       input: (
