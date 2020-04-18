@@ -40,6 +40,6 @@
   "devDependencies": {
     "eslint-config-airbnb": "^18.1.0",
     "eslint-plugin-html": "^6.0.1",
-    "ftp-deploy": "^2.3.7"
+    "ftp-deploy": "^1.2.2"
   }
 }

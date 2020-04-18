@@ -10,7 +10,7 @@ class Deploy {
     this.ftpDeploy = new FtpDeploy();
     this.config = {
       username: 'u40157445',
-      host: 'ftp.wgirankings.com',
+      host: 'ftp.shekharkhedekar.com',
       port: 21,
       continueOnError: true,
       ...config,
