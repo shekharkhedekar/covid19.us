@@ -7,6 +7,6 @@ module.exports = {
       "html",
     ],
     "rules": {
-      "id-blacklist": ["error", "fixture"],
+      "react/prop-types": 0
     },
 };

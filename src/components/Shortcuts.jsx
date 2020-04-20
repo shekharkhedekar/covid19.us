@@ -6,14 +6,14 @@ const Shortcuts = ({ onChange }) => (
   <div className="shortcuts">
     <h2>Quick Links</h2>
     {SHORTCUTS.map((s) => (
-      <div
+      <button
+        type="button"
         key={s.name}
         className="shortcut"
-        role="button"
         onClick={() => onChange(s)}
       >
         {s.name}
-      </div>
+      </button>
     ))}
   </div>
 );

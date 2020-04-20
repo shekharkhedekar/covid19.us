@@ -13,7 +13,6 @@ const getMax = (name, data) => data.reduce((acc, current) => {
 }, 0);
 
 const Charts = ({
-  name,
   data,
   title,
   onDotMouseOver,
