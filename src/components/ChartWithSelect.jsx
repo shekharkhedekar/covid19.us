@@ -137,7 +137,7 @@ const ChartWithSelect = () => {
 
   return (
     <div className="container">
-      <div style={{ display: 'flex' }}>
+      <div className="controls">
         <Options inputs={inputs} />
         <Shortcuts onChange={onShortcutChange} />
       </div>

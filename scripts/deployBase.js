@@ -16,6 +16,10 @@ class Deploy {
       ...config,
     };
 
+    this.ftpDeploy.on('uploading', (data) => {
+      console.log(`Uploaded ${data.transferredFileCount} of ${data.totalFileCount} (${data.percentComplete}%) files. Uploading ${data.filename}...`);
+    });
+
     this.ftpDeploy.on('uploaded', (data) => {
       const {
         transferredFileCount,
