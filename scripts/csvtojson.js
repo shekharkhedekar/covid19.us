@@ -1,4 +1,4 @@
-
+/* eslint-disable no-console */
 const fs = require('fs');
 const readline = require('readline');
 
@@ -19,25 +19,13 @@ readInterface.on('line', (line) => {
     keys = lineArray;
   } else {
     const json = {};
-    lineArray.forEach((l, i) => {
-      json[keys[i]] = l;
+    lineArray.forEach((l, idx) => {
+      json[keys[idx]] = l;
     });
     rawData.push(json);
   }
-  i++;
+  i += 1;
 });
-
-/*
-Desired format:
-*/
-const states = {
-  California: {
-    counties: [''],
-
-
-  },
-};
-
 
 readInterface.on('close', () => {
   console.log('Generating JSON...');

@@ -6,3 +6,11 @@ repos:
     -   id: check-json
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
+-   repo: https://github.com/pre-commit/mirrors-csslint
+    rev: v1.0.5
+    hooks:
+    -   id: csslint
+-   repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v6.8.0
+    hooks:
+    -   id: eslint
