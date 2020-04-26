@@ -7,7 +7,11 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <h1>US COVID-19 Data</h1>
+      <h1>
+        US COVID-19 Data (
+        <a href="https://github.com/nytimes/covid-19-data">source</a>
+        )
+      </h1>
       <ChartWithSelect />
     </div>
   );

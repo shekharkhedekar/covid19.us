@@ -53,7 +53,7 @@ const ChartWithSelect = () => {
 
   // Variables
   const filteredData = data.map((d) => ({ date: d.date, ...getData(d, 'cases'), ...getData(d, 'deaths') }));
-  const statesList = Object.keys(states).map(mapStringToSelectOption);
+  const statesList = Object.keys(states).sort().map(mapStringToSelectOption);
   const countiesList = Object.keys(states).reduce((acc, s) => {
     const state = states[s];
 
@@ -61,7 +61,7 @@ const ChartWithSelect = () => {
       return acc.concat(state.counties);
     }
     return acc;
-  }, []).map(mapStringToSelectOption);
+  }, []).sort().map(mapStringToSelectOption);
   const inputs = [
     {
       shouldShow: true,
@@ -92,36 +92,39 @@ const ChartWithSelect = () => {
         />),
     },
     {
-      shouldShow: (
-        (!selectedStates || !selectedStates.length || selectedStates.length > 1)
-        && (!selectedCounties || !selectedCounties.length)),
-      label: 'Combine states?',
+      shouldShow: !selectedStates || !selectedStates.length,
       input: (
-        <input
-          type="checkbox"
-          checked={aggregateBy === AGGREGATE_OPTIONS[0]}
-          onChange={(e) => {
-            const { checked } = e.target;
-            setAggregateBy(AGGREGATE_OPTIONS[checked ? 0 : 1]);
-          }}
-        />
+        <label className="label" htmlFor="states">
+          <input
+            name="states"
+            type="checkbox"
+            checked={aggregateBy === AGGREGATE_OPTIONS[0]}
+            onChange={(e) => {
+              const { checked } = e.target;
+              setAggregateBy(AGGREGATE_OPTIONS[checked ? 0 : 1]);
+            }}
+          />
+          {' '}
+          Combine states into one line
+        </label>
       ),
     },
     {
-      shouldShow: (
-        selectedStates
-        && Boolean(selectedStates.length)
-      ),
-      label: 'Combine counties?',
+      shouldShow: selectedStates && Boolean(selectedStates.length) && (!selectedCounties || selectedCounties.length === 0 || selectedCounties.length > 1),
       input: (
-        <input
-          type="checkbox"
-          checked={aggregateBy === AGGREGATE_OPTIONS[1]}
-          onChange={(e) => {
-            const { checked } = e.target;
-            setAggregateBy(AGGREGATE_OPTIONS[checked ? 1 : 2]);
-          }}
-        />
+        <label className="label" htmlFor="counties">
+          <input
+            name="counties"
+            type="checkbox"
+            checked={aggregateBy === AGGREGATE_OPTIONS[1]}
+            onChange={(e) => {
+              const { checked } = e.target;
+              setAggregateBy(AGGREGATE_OPTIONS[checked ? 1 : 2]);
+            }}
+          />
+          {' '}
+          Combine Counties into one line
+        </label>
       ),
     },
   ];

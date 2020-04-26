@@ -7,8 +7,7 @@ const Options = ({ inputs }) => (
       {inputs.map((i) => (i.shouldShow ? (
         <div className="form-row" key={i.label}>
           <div className="label">
-            {i.label}
-            :
+            {i.label ? <span>{`${i.label}:`}</span> : null}
           </div>
           <div className="select">
             {i.input}

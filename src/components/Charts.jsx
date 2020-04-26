@@ -32,9 +32,9 @@ const Charts = ({
           <ResponsiveContainer>
             <LineChart
               margin={{
-                top: 25,
-                right: 30,
-                left: 70,
+                top: 10,
+                right: 10,
+                left: 10,
                 bottom: 100,
               }}
               data={data}
