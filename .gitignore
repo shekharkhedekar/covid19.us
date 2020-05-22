@@ -105,3 +105,6 @@ dist
 
 # React Scripts Build output
 build/
+
+# Script output
+src/counties.json
