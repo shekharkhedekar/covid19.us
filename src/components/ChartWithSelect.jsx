@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 
 import Charts from './Charts';
@@ -11,10 +11,38 @@ const mapStringToSelectOption = (k) => ({ value: k, label: k });
 
 const ChartWithSelect = () => {
   // State
+  // const [states, setStates] = useState();
   const [selectedStates, setSelectedStates] = useState([]);
   const [selectedCounties, setSelectedCounties] = useState([]);
   const [aggregateBy, setAggregateBy] = useState(AGGREGATE_OPTIONS[0]);
   const [activeDotValue, setActiveDotValue] = useState();
+  const [countyPopulations, setCountyPopulations] = useState();
+  const [isPerCapita, setIsPerCapita] = useState();
+  console.log('data', data);
+
+  useEffect(() => {
+    const getCensusResults = async () => {
+      const response = await fetch('https://api.census.gov/data/2019/pep/population?get=POP,NAME&for=county:*');
+      const json = await response.json();
+      const output = json.reduce((acc, current) => {
+        const population = current[0];
+        const countyState = current[1].split(',');
+        const county = countyState[0];
+
+        if (!countyState[1]) {
+          return acc;
+        }
+        const state = countyState[1].replace(/\s/, '');
+        acc[state] = acc[state] || {};
+        acc[state][county] = population;
+        return acc;
+      }, {});
+      setCountyPopulations(output);
+    };
+
+
+    getCensusResults();
+  }, []);
 
   // State Helpers
   const includesState = (s) => (
@@ -43,6 +71,7 @@ const ChartWithSelect = () => {
             }
             output[key] = output[key] || 0;
             output[key] += d[k][state][county];
+            // output[key] += d[k][state][county] / (isPerCapita ? countyPopulations[state][county] : 1);
           }
         });
       }
@@ -52,7 +81,8 @@ const ChartWithSelect = () => {
   };
 
   // Variables
-  const filteredData = data.map((d) => ({ date: d.date, ...getData(d, 'cases'), ...getData(d, 'deaths') }));
+  const filteredData = data.map((d) => ({ date: d.date, ...getData(d, 'newCases'), ...getData(d, 'newDeaths') }));
+  console.log({ filteredData });
   const statesList = Object.keys(states).sort().map(mapStringToSelectOption);
   const countiesList = Object.keys(states).reduce((acc, s) => {
     const state = states[s];
@@ -106,6 +136,24 @@ const ChartWithSelect = () => {
           />
           {' '}
           Combine states into one line
+        </label>
+      ),
+    },
+    {
+      shouldShow: true,
+      input: (
+        <label className="label" htmlFor="per-capita">
+          <input
+            name="per-capita"
+            type="checkbox"
+            checked={isPerCapita}
+            onChange={(e) => {
+              const { checked } = e.target;
+              setIsPerCapita(Boolean(checked));
+            }}
+          />
+          {' '}
+          Use Per Capita
         </label>
       ),
     },

@@ -24,7 +24,7 @@ const Charts = ({
     <div className="charts">
 
 
-      {['cases', 'deaths'].map((name) => (
+      {['newCases', 'newDeaths'].map((name) => (
         <div key={name} className="chart-wrapper">
           <h3 className="chart-title">
             {name}

@@ -3,6 +3,7 @@ import React from 'react';
 const TooltipContent = ({
   active, payload, label, activeDotValue,
 }) => {
+  console.log('payload', payload);
   if (!active || !payload.length) {
     return null;
   }
